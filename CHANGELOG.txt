@@ -2,6 +2,10 @@
  - obspy.db:
    * Fixed a bug in obspy-indexer command line script (see #1369,
      command line script was not working, probably since 0.10.0)
+ - obspy.imaging:
+   * Fix arbitrary units in waveform section plot's offset axis, making it
+     possible to add customizations to the plot afterwards (see #1382, see
+     #1383)
 
 1.0.1: (doi: 10.5281/zenodo.48254)
  - General:
