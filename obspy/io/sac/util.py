@@ -462,3 +462,18 @@ def get_sac_reftime(header):
         raise SacHeaderTimeError(msg)
 
     return reftime
+
+
+def _decode_bytes_and_warn(bytestring, key=None):
+    """
+    Decodes bytestring to ASCII, ignoring invalid characters if present and
+    issuing a warning if invalid characters are encountered.
+    """
+    try:
+        return bytestring.decode("ASCII")
+    except UnicodeDecodeError as e:
+        key_info = key and " (in SAC header field '{}')".format(key) or ""
+        msg = "Invalid non-ASCII characters encountered{}: {}".format(
+            key_info, str(e))
+        warnings.warn(msg)
+    return bytestring.decode("ASCII", "replace")
