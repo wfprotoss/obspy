@@ -452,10 +452,12 @@ def header_arrays_to_dict(hf, hi, hs, nulls=False):
         items = [(key, val) for (key, val) in zip(HD.FLOATHDRS, hf)
                  if val != HD.FNULL] + \
                 [(key, val) for (key, val) in zip(HD.INTHDRS, hi)
-                 if val != HD.INULL] + \
-                [(key, _decode_bytes_and_warn(val, key))
-                 for (key, val) in zip(HD.STRHDRS, hs)
-                 if val.decode("ASCII", "ignore") != HD.SNULL]
+                 if val != HD.INULL]
+        for key, val in zip(HD.STRHDRS, hs):
+            val = _decode_bytes_and_warn(val, key)
+            if val == HD.SNULL or val == HD.SNULL.strip():
+                continue
+            items.append((key, val))
 
     header = dict(items)
 

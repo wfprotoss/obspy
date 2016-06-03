@@ -464,11 +464,13 @@ def get_sac_reftime(header):
     return reftime
 
 
-def _decode_bytes_and_warn(bytestring, key=None):
+def _decode_bytes_and_warn(bytestring, key=None, strip_null_terminated=True):
     """
     Decodes bytestring to ASCII, ignoring invalid characters if present and
     issuing a warning if invalid characters are encountered.
     """
+    if strip_null_terminated:
+        bytestring = bytestring.split(b'\x00', 1)[0]
     try:
         return bytestring.decode("ASCII")
     except UnicodeDecodeError as e:
